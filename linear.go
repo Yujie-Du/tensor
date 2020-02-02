@@ -1,5 +1,6 @@
 package tensor
 
+//Dot:点乘，目前仅支持二维线性变换。a2:变换矩阵(二维数组)或一维数组。
 func(a *Array)Dot(a2 *Array)(a3 *Array){
 	if a2.level==0||a.level==0{
 		return a.Mul(a2)

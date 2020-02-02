@@ -1,5 +1,7 @@
 package tensor
 import "math"
+
+//Std:求任意维度上的标准差。axis:目标维度。
 func(a *Array)Std(axis int)(a2 *Array){
 	f:=func(data []float64)(r float64){
 		mean:=0.0
@@ -16,6 +18,7 @@ func(a *Array)Std(axis int)(a2 *Array){
 	}
 	return a.OptForStatis(axis,f)
 }
+//Min:求任意维度上的最小值。axis:目标维度。
 func(a *Array)Min(axis int)(a2 *Array){
 	f:=func(data []float64)(r float64){
 		r=data[0]
@@ -28,6 +31,7 @@ func(a *Array)Min(axis int)(a2 *Array){
 	}
 	return a.OptForStatis(axis,f)
 }
+//Max:求任意维度上的最大值。axis:目标维度。
 func(a *Array)Max(axis int)(a2 *Array){
 	f:=func(data []float64)(r float64){
 		r=data[0]
@@ -40,6 +44,7 @@ func(a *Array)Max(axis int)(a2 *Array){
 	}
 	return a.OptForStatis(axis,f)
 }
+//Mean:求任意维度上的均值。axis:目标维度。
 func(a *Array)Mean(axis int)(a2 *Array){
 	f:=func(data []float64)(r float64){
 		for _,d:=range data{
@@ -50,6 +55,7 @@ func(a *Array)Mean(axis int)(a2 *Array){
 	}
 	return a.OptForStatis(axis,f)
 }
+//Sum:求任意维度上的总和。axis:目标维度。
 func(a *Array)Sum(axis int)(a2 *Array){
 	f:=func(data []float64)(r float64){
 		for _,d:=range data{
@@ -59,6 +65,7 @@ func(a *Array)Sum(axis int)(a2 *Array){
 	}
 	return a.OptForStatis(axis,f)
 }
+//OptForStatis:求任意维度上的自定义统计量。axis:目标维度，f:自定义统计量计算函数
 func(a *Array)OptForStatis(axis int,f func(d []float64)float64)(a2 *Array){
 	if axis<0||axis>=a.level{
 		panic("axis out of range")
