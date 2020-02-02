@@ -1,6 +1,6 @@
 package main
 //import "fmt"
-import "C"
+//import "C"
 
 func main(){}
 type Array struct{
