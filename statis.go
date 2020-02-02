@@ -1,4 +1,4 @@
-package main
+package tensor
 import "math"
 func(a *Array)Std(axis int)(a2 *Array){
 	f:=func(data []float64)(r float64){

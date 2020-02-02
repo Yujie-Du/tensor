@@ -1,4 +1,4 @@
-package main
+package tensor
 
 func(a *Array)Add(a2 *Array)(a3 *Array){
 	f:=func(v1,v2 float64)float64{return v1+v2}
@@ -50,6 +50,16 @@ func(a *Array)optForUnitInner(a2 *Array,f func(v1,v2 float64)float64){
 	c:=a2.count[0]
 	for i:=range a.data{
 		a.data[i]=f(a.data[i],a2.data[i%c])
+	}
+}
+func(a *Array)MapForUnit(f func(v float64)float64)(a2 *Array){
+	a2=a.Copy()
+	a2.MapForUnitInner(f)
+	return
+}
+func(a *Array)MapForUnitInner(f func(v float64)float64){
+	for i,v:=range a.data{
+		a.data[i]=f(v)
 	}
 }
 func(a *Array)Dot(a2 *Array)(a3 *Array){

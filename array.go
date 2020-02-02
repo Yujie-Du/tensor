@@ -1,8 +1,7 @@
-package main
-//import "fmt"
+package tensor
+import "fmt"
 //import "C"
 
-func main(){}
 type Array struct{
 	level int
 	shape []int
@@ -51,6 +50,15 @@ func(a *Array)init(shape []int,data []float64){
 		panic("num of data can not match the shape")
 	}
 	a.data=data
+}
+func(a *Array)Length()(l int){
+	if a.level==0{
+		return 0
+	}
+	return a.shape[0]
+}
+func(a *Array)Count()(c int){
+	return a.count[0]
 }
 func(a *Array)Shape()(s []int){
 	s=make([]int,a.level)
@@ -249,4 +257,52 @@ func(a *Array)reAxisNext(last1,last2,axis []int,index int,a2 *Array){
 			a.reAxisNext(last1,last2,axis,index+1,a2)
 		}
 	}
+}
+func(a *Array)String()(str string){
+	head,_:=a.stringNext()
+	return head.Comb()
+}
+func(a *Array)stringNext()(head,end *strNode){
+	if a.level==0{
+		head=&strNode{fmt.Sprint(a.data[0]),nil}
+		end=head
+		return
+	}
+	if a.level==1{
+		head=&strNode{fmt.Sprint(a.data),nil}
+		end=head
+		return
+	}
+	head=&strNode{"[",nil}
+	end=head
+	for i:=0;i<a.shape[0];i+=1{
+		c:=a.ChildInner([]int{i})
+		h,e:=c.stringNext()
+		end.Next=h
+		end=e
+	}
+	end.Next=&strNode{"]",nil}
+	return
+}
+type strNode struct{
+	Data string
+	Next *strNode
+}
+func(s *strNode)Comb()(str string){
+	temp:=make([]byte,s.count())
+	s.combNext(temp)
+	return string(temp)
+}
+func(s *strNode)count()(c int){
+	if s==nil{
+		return 0
+	}
+	return len(s.Data)+s.Next.count()
+}
+func(s *strNode)combNext(str []byte){
+	if s==nil{
+		return
+	}
+	copy(str,[]byte(s.Data))
+	s.Next.combNext(str[len(s.Data):])
 }
