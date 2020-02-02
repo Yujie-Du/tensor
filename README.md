@@ -19,9 +19,17 @@
 随机初始化工具
 ### probability.go
 概率分布工具
-### learning/...
-机器学习工具
-### learing/gradient.go
-反向梯度传播工具
-### learning/network/...
+### darwin/...
+进化算法工具
+#### darwin/layer.go
+模型层
+#### darwin/switcher.go
+基因交换与变异工具
+#### darwin/community.go
+种群(淘汰与演化机制)
+### network/...
 神经网络工具
+#### network/gradient.go
+反向梯度传播算法
+#### network/layer.go
+神经网络层

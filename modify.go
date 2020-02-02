@@ -60,6 +60,7 @@ func(a *Array)ReAxis(axises []int)(a2 *Array){
 	}
 	return a.reAxis(axises)
 }
+
 func(a *Array)reAxis(axises []int)(a2 *Array){
 	for i:=len(axises)-1;i>=0;i-=1{
 		if axises[i]==i{
