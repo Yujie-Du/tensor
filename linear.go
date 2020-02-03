@@ -23,6 +23,10 @@ func(a *Array)dot1(a2 *Array)(a3 *Array){
 	copy(shape,a.shape[:a.level-1])
 	a3.init(shape,nil)
 	lgh:=a2.shape[0]
+	a.lock.RLock()
+	a2.lock.RLock()
+	defer a.lock.RUnlock()
+	defer a2.lock.RUnlock()
 	for i:=0;i<a.count[0]/lgh;i+=1{
 		a3.data[i]=float64dot1(a.data[i*lgh:(i+1)*lgh],a2.data)
 	}
@@ -42,6 +46,10 @@ func(a *Array)dot2(a2 *Array)(a3 *Array){
 	a3.init(shape,nil)
 	l1:=a2.shape[0]
 	l2:=a2.shape[1]
+	a.lock.RLock()
+	a2.lock.RLock()
+	defer a.lock.RUnlock()
+	defer a2.lock.RUnlock()
 	for i:=0;i<a.count[0]/l1;i+=1{
 		copy(a3.data[i*l2:(i+1)*l2],float64dot2(a.data[i*l1:(i+1)*l1],a2.data))
 	}

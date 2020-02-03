@@ -80,6 +80,8 @@ func(a *Array)optForStatis(axis int,f func(d []float64)float64)(a2 *Array){
 	if a2.count[0]==0{
 		return
 	}
+	a.lock.RLock()
+	defer a.lock.RUnlock()
 	a.optForStatisNext(axis,f,a2.data)
 	return
 }

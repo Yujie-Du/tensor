@@ -9,6 +9,8 @@ func(a *Array)MapForUnit(f func(v float64)float64)(a2 *Array){
 }
 //MapForUnitInner:广播自定义的单变量运算，运算结果替代原数组数据。f:自定义的运算函数
 func(a *Array)MapForUnitInner(f func(v float64)float64){
+	a.lock.Lock()
+	defer a.lock.Unlock()
 	for i,v:=range a.data{
 		a.data[i]=f(v)
 	}
@@ -119,6 +121,8 @@ func(a *Array)PowFloat64(f float64)(a2 *Array){
 	return a.Pow(NewArrayFromFloat64(f))
 }
 func(a *Array)optForUnitInner(a2 *Array,f func(v1,v2 float64)float64){
+	a.lock.Lock()
+	defer a.lock.Unlock()
 	c:=a2.count[0]
 	for i:=range a.data{
 		a.data[i]=f(a.data[i],a2.data[i%c])

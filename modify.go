@@ -34,6 +34,8 @@ func(a *Array)Cut(frontlimit,backlimit []int)(a2 *Array){
 	if a2.count[0]==0{
 		return
 	}
+	a.lock.RLock()
+	defer a.lock.RUnlock()
 	a.cutNext(frontlimit,backlimit,a2.data)
 	return
 }
@@ -79,6 +81,8 @@ func(a *Array)reAxis(axises []int)(a2 *Array){
 	a2=new(Array)
 	a2.init(shape,nil)
 	coord1,coord2:=make([]int,len(axises)),make([]int,len(axises))
+	a.lock.RLock()
+	defer a.lock.RUnlock()
 	a.reAxisNext(coord1,coord2,axises,0,a2)
 	return
 }
@@ -97,10 +101,11 @@ func(a *Array)reAxisNext(last1,last2,axises []int,index int,a2 *Array){
 	}
 }
 func(a *Array)reShape(shape []int)(a2 *Array){
-	data:=make([]float64,a.count[0])
-	copy(data,a.data)
+	a.lock.RLock()
+	defer a.lock.RUnlock()
 	a2=new(Array)
-	a2.init(shape,data)
+	a2.init(shape,nil)
+	copy(a2.data,a.data)
 	return
 }
 func(a *Array)cutNext(frontlimit,backlimit []int,data []float64)(data2 []float64){
